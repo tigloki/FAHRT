@@ -1,21 +1,31 @@
 # FAHRT — Fun Ad-Hoc Reminder Tool
 
-A small, configurable popup reminder for Windows. One `.exe`, a handful of sound files, no install and no dependencies beyond what Windows already ships with. Curious how it came to be (and why it's named what it's named)? See [ABOUT.md](ABOUT.md).
+A small, configurable popup reminder. One tool per platform, no install beyond what's already there. Curious how it came to be (and why it's named what it's named)? See [ABOUT.md](ABOUT.md).
 
 ## What it does
 
-Running `FAHRT.exe` shows a topmost popup with your reminder text and an OK button. On open it plays an entrance sound; clicking OK plays a dismiss sound and closes the window.
+Running FAHRT shows a topmost popup with your reminder text and an OK button. On open it plays an entrance sound; clicking OK plays a dismiss sound and closes the window.
 
-## Quick start
+## Pick your platform
+
+| Platform | Folder | Run with |
+|---|---|---|
+| **Windows** | [`windows/`](windows/) | `FAHRT.exe` |
+| **Linux** | [`linux/`](linux/) | `./FAHRT.sh` |
+| **macOS** | [`mac/`](mac/) | `./FAHRT.sh` |
+
+There's no phone version yet.
+
+Each platform's folder is self-contained — the exe/script plus its own sound files. Grab the one folder you need; you don't need the whole repo.
+
+## Setup (all platforms)
 
 ```
-FAHRT.exe -Setup     # configure your text + sound combo, once
-FAHRT.exe            # show the reminder
+-Setup      (Windows: FAHRT.exe -Setup)
+-setup      (Linux/Mac: ./FAHRT.sh -setup)
 ```
 
-## Setup
-
-Run `FAHRT.exe -Setup` to open a small configuration window where you can set:
+Configure:
 
 - **Reminder text** — up to 4 lines, 20 characters each (e.g. "Check ADP", "Stand up")
 - **Sound combo** — one of four fixed pairs (entrance → dismiss):
@@ -27,47 +37,46 @@ Run `FAHRT.exe -Setup` to open a small configuration window where you can set:
   | 3 | Rising Tone | Mac Quack |
   | 4 | Red Alert | Mac Quack |
 
-Click **Save**. This writes `FAHRT.config.json` next to the exe. If that file is missing or unreadable, FAHRT falls back to built-in defaults ("List Item #1" / "List Item number two", Rising Tone → Mac Quack) rather than failing outright.
+This writes a small config file next to the tool (`FAHRT.config.json` on Windows/Linux, `FAHRT.config` on Mac). If it's missing or unreadable, FAHRT falls back to built-in defaults ("List Item #1" / "List Item number two", Rising Tone → Mac Quack) rather than failing outright. That config file is yours — it's gitignored, not shared.
 
 ## Running it
 
-```
-FAHRT.exe
-```
+Windows: `FAHRT.exe` — Linux/Mac: `./FAHRT.sh`
 
-Shows the popup once, using whatever's in `FAHRT.config.json` (or the defaults). Run it whenever you want the reminder to show — by hand, from a shortcut, or on a schedule (see below).
+Shows the popup once. Run it whenever you want the reminder to show — by hand, or on a schedule (see below).
+
+## Platform notes
+
+### Windows
+No dependencies — everything (WinForms, the classic MCI audio interface) ships with Windows already. See [`windows/`](windows/) for the exe and its PowerShell source.
+
+### Linux
+Needs **zenity** for the popups (near-universal on GNOME-based desktops; `sudo apt install zenity` if missing) and one MP3 player already present or installed (`mpg123`, `ffplay`, or `cvlc` — try `sudo apt install mpg123` if none are found). WAV playback uses `paplay`/`aplay`, which come with essentially every desktop Linux audio stack.
+
+### macOS
+No dependencies — `osascript` and `afplay` both ship with every Mac. Run via Terminal (`./FAHRT.sh`), or rename to `FAHRT.command` to make it double-clickable from Finder.
 
 ## Scheduling it
 
-FAHRT itself doesn't schedule anything — that's on you, via Windows' own Task Scheduler. To get it running automatically (e.g., every weekday morning):
+FAHRT doesn't schedule itself on any platform — that's on you, using whatever your OS already provides:
 
-1. Open **Task Scheduler** (search for it in the Start menu).
-2. **Create Task…** (not "Create Basic Task" — you want the full dialog).
-3. **General tab:** give it a name. Under "Security options," select **"Run only when user is logged on."**
-4. **Triggers tab → New:** set "Begin the task" to *On a schedule*, choose *Weekly*, pick your days, and set the time.
-5. **Actions tab → New:** set "Action" to *Start a program*, and browse to your `FAHRT.exe`.
-6. **Conditions/Settings tabs:** defaults are usually fine; you may want to uncheck "Stop the task if it runs longer than…" if present.
-7. Save.
+- **Windows — Task Scheduler:**
+  1. Open **Task Scheduler**, **Create Task…** (not "Create Basic Task").
+  2. **General:** name it. Under "Security options," pick **"Run only when user is logged on."**
+  3. **Triggers → New:** *On a schedule*, *Weekly*, pick your days/time.
+  4. **Actions → New:** *Start a program*, browse to your `FAHRT.exe`.
+  5. Save.
 
-That's the whole setup — Task Scheduler runs `FAHRT.exe` at the times you picked, and it shows your configured reminder.
+- **Linux — cron or a systemd user timer:**
+  - Cron: `crontab -e`, then e.g. `25 8 * * 1-5 /path/to/FAHRT.sh` for weekdays at 8:25am.
+  - Or a systemd user timer/service pair in `~/.config/systemd/user/` if you prefer that over cron.
 
-## Files
-
-| File | What it is |
-|---|---|
-| `FAHRT.exe` | The tool itself — this is the only file you need to run |
-| `FAHRT.ps1` | Its source (PowerShell + WinForms), if you want to read or modify it |
-| `FAHRT.png` / `FAHRT.ico` | The clock icon shown in the popup and on the exe |
-| `UpSound.wav`, `RedAlert.mp3`, `SadTrombone.mp3`, `MacQuack.mp3` | The four sound options |
-| `FAHRT.config.json` | Created by `-Setup`; holds your text and sound choice. Not checked into this repo — it's yours, not shared. |
-
-## Requirements
-
-Windows only. No installation, no runtime to download — everything FAHRT uses (WinForms, the classic MCI audio interface) ships with Windows already.
+- **macOS — launchd:**
+  - Create a `.plist` in `~/Library/LaunchAgents/` with a `ProgramArguments` array pointing at your `FAHRT.sh`, and a `StartCalendarInterval` for the schedule. Load it with `launchctl load ~/Library/LaunchAgents/yourfile.plist`.
 
 ## A note on the sounds
 
-`RedAlert.mp3` is genuine *Star Trek: The Original Series* alert audio, and `MacQuack.mp3` is the classic Mac OS system alert sound — both sourced from long-standing fan/reference sound-effect archives, not created for this project. `SadTrombone.mp3` is a small public-domain effect. This is a personal/internal tool, not a commercial product — worth knowing if you ever repackage or redistribute it further.
+`RedAlert` (mp3/wav) is genuine *Star Trek: The Original Series* alert audio, and `MacQuack.mp3` is the classic Mac OS system alert sound — both sourced from long-standing fan/reference sound-effect archives, not created for this project. `SadTrombone.mp3` is a small public-domain effect. This is a personal/internal tool, not a commercial product — worth knowing if you ever repackage or redistribute it further.
 
 ## License
 
