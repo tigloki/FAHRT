@@ -38,7 +38,13 @@ function Play-Mp3 {
 
 function Play-Wav {
     param([string]$Path)
-    (New-Object System.Media.SoundPlayer($Path)).Play()
+    try {
+        (New-Object System.Media.SoundPlayer($Path)).Play()
+    } catch {
+        # Missing/unreadable sound file shouldn't crash the whole popup —
+        # fail silently, same as Play-Mp3 already does via MCI's own error
+        # codes rather than exceptions.
+    }
 }
 
 # --- Sound combos ---
