@@ -1,29 +1,33 @@
 # FAHRT — Fun Ad-Hoc Reminder Tool
 
-A small, configurable popup reminder for Windows. No install, no dependencies — one `.exe`, plus a handful of sound files it ships with.
+A small, configurable popup reminder for Windows. One `.exe`, a handful of sound files, no install and no dependencies beyond what Windows already ships with. Curious how it came to be (and why it's named what it's named)? See [ABOUT.md](ABOUT.md).
 
 ## What it does
 
 Running `FAHRT.exe` shows a topmost popup with your reminder text and an OK button. On open it plays an entrance sound; clicking OK plays a dismiss sound and closes the window.
 
+## Quick start
+
+```
+FAHRT.exe -Setup     # configure your text + sound combo, once
+FAHRT.exe            # show the reminder
+```
+
 ## Setup
 
-Run:
-
-```
-FAHRT.exe -Setup
-```
-
-This opens a small configuration window where you can set:
+Run `FAHRT.exe -Setup` to open a small configuration window where you can set:
 
 - **Reminder text** — up to 4 lines, 20 characters each (e.g. "Check ADP", "Stand up")
 - **Sound combo** — one of four fixed pairs (entrance → dismiss):
-  1. Rising Tone → Sad Trombone
-  2. Red Alert → Sad Trombone
-  3. Rising Tone → Mac Quack
-  4. Red Alert → Mac Quack
 
-Click **Save**. This writes `FAHRT.config.json` next to the exe. If that file is missing or unreadable, FAHRT falls back to built-in defaults ("List Item #1" / "List Item number two", Rising Tone → Mac Quack) rather than failing.
+  | # | Entrance | Dismiss |
+  |---|----------|---------|
+  | 1 | Rising Tone | Sad Trombone |
+  | 2 | Red Alert | Sad Trombone |
+  | 3 | Rising Tone | Mac Quack |
+  | 4 | Red Alert | Mac Quack |
+
+Click **Save**. This writes `FAHRT.config.json` next to the exe. If that file is missing or unreadable, FAHRT falls back to built-in defaults ("List Item #1" / "List Item number two", Rising Tone → Mac Quack) rather than failing outright.
 
 ## Running it
 
@@ -31,11 +35,11 @@ Click **Save**. This writes `FAHRT.config.json` next to the exe. If that file is
 FAHRT.exe
 ```
 
-Shows the popup once, using whatever's in `FAHRT.config.json` (or the defaults). That's it — run it whenever you want the reminder to show.
+Shows the popup once, using whatever's in `FAHRT.config.json` (or the defaults). Run it whenever you want the reminder to show — by hand, from a shortcut, or on a schedule (see below).
 
 ## Scheduling it
 
-FAHRT itself doesn't schedule anything — that's up to you, via Windows' own Task Scheduler. To get it running automatically (e.g., every weekday morning):
+FAHRT itself doesn't schedule anything — that's on you, via Windows' own Task Scheduler. To get it running automatically (e.g., every weekday morning):
 
 1. Open **Task Scheduler** (search for it in the Start menu).
 2. **Create Task…** (not "Create Basic Task" — you want the full dialog).
@@ -49,12 +53,22 @@ That's the whole setup — Task Scheduler runs `FAHRT.exe` at the times you pick
 
 ## Files
 
-- `FAHRT.exe` — the tool itself
-- `FAHRT.ps1` — its source (PowerShell + WinForms), if you want to read or modify it
-- `FAHRT.png` / `FAHRT.ico` — the clock icon shown in the popup and on the exe
-- `UpSound.wav`, `RedAlert.mp3`, `SadTrombone.mp3`, `MacQuack.mp3` — the four sound options
-- `FAHRT.config.json` — created by `-Setup`, holds your text and sound choice (not checked into this repo — it's yours, not shared)
+| File | What it is |
+|---|---|
+| `FAHRT.exe` | The tool itself — this is the only file you need to run |
+| `FAHRT.ps1` | Its source (PowerShell + WinForms), if you want to read or modify it |
+| `FAHRT.png` / `FAHRT.ico` | The clock icon shown in the popup and on the exe |
+| `UpSound.wav`, `RedAlert.mp3`, `SadTrombone.mp3`, `MacQuack.mp3` | The four sound options |
+| `FAHRT.config.json` | Created by `-Setup`; holds your text and sound choice. Not checked into this repo — it's yours, not shared. |
+
+## Requirements
+
+Windows only. No installation, no runtime to download — everything FAHRT uses (WinForms, the classic MCI audio interface) ships with Windows already.
 
 ## A note on the sounds
 
 `RedAlert.mp3` is genuine *Star Trek: The Original Series* alert audio, and `MacQuack.mp3` is the classic Mac OS system alert sound — both sourced from long-standing fan/reference sound-effect archives, not created for this project. `SadTrombone.mp3` is a small public-domain effect. This is a personal/internal tool, not a commercial product — worth knowing if you ever repackage or redistribute it further.
+
+## License
+
+Personal-use tool, shared as-is. See the sounds note above before redistributing further.
