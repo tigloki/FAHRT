@@ -80,8 +80,8 @@ FAHRT doesn't schedule itself on any platform — that's on you, using whatever 
 
 ## License
 
-Personal-use tool, shared as-is. See the sounds note above before redistributing further.
+MIT — see [LICENSE](LICENSE). The code is genuinely open for reuse and modification; the one ask is keeping the copyright notice intact. See the sounds note above before redistributing the bundled audio further, though — those weren't created for this project.
 
 ## Attribution
 
-Built via direct collaboration between the author and Claude (Anthropic) — see [ABOUT.md](ABOUT.md#attribution) for the honest breakdown of who did what.
+Built via direct collaboration between the author and Claude Sonnet 5, via Claude Code — see [ABOUT.md](ABOUT.md#attribution) for the honest breakdown of who did what.

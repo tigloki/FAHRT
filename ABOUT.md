@@ -38,4 +38,4 @@ All four combinations got built, tested live, and kept — because there was no 
 
 ## Attribution
 
-FAHRT was built through direct, extensive collaboration between its author and Claude (Anthropic). The concept, every creative call — the name, the sound combos, the insistence on doing it properly instead of settling for the first working version — and all testing and correction came from the author. The code, architecture, and iteration were Claude's, working live against that direction. Neither half tells the whole story alone, so both are stated plainly here rather than left for the reader to guess at.
+FAHRT was built through direct, extensive collaboration between its author and Claude Sonnet 5, via Claude Code. The concept, every creative call — the name, the sound combos, the insistence on doing it properly instead of settling for the first working version — and all testing and correction came from the author. The code, architecture, and iteration were Claude's, working live against that direction. Neither half tells the whole story alone, so both are stated plainly here rather than left for the reader to guess at.
