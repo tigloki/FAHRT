@@ -35,3 +35,7 @@ All four combinations got built, tested live, and kept — because there was no 
 - **Ad-hoc, not automated.** FAHRT doesn't manage its own schedule — Task Scheduler already does that well, and duplicating it would just be another thing to maintain. FAHRT does one job: show up, make noise, get dismissed.
 - **Zero install.** Everything it uses — WinForms, the classic MCI audio interface — already ships with Windows. No runtime to download, no dependency to explain to a coworker before they can run it.
 - **Fun is the point.** A work reminder doesn't have to be dour. If it has to interrupt your morning, it might as well do it with a Red Alert klaxon and a sad trombone.
+
+## Attribution
+
+FAHRT was built through direct, extensive collaboration between its author and Claude (Anthropic). The concept, every creative call — the name, the sound combos, the insistence on doing it properly instead of settling for the first working version — and all testing and correction came from the author. The code, architecture, and iteration were Claude's, working live against that direction. Neither half tells the whole story alone, so both are stated plainly here rather than left for the reader to guess at.

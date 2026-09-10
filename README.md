@@ -81,3 +81,7 @@ FAHRT doesn't schedule itself on any platform — that's on you, using whatever 
 ## License
 
 Personal-use tool, shared as-is. See the sounds note above before redistributing further.
+
+## Attribution
+
+Built via direct collaboration between the author and Claude (Anthropic) — see [ABOUT.md](ABOUT.md#attribution) for the honest breakdown of who did what.
